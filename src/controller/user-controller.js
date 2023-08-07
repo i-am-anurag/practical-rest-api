@@ -30,17 +30,17 @@ const signUp = async (req, res) => {
 const signIn = async(req,res) => {
     try {
         const { email, password } = req.body;
-        const response = await userService.signIn(email,password);
+        const token = await userService.signIn(email,password);
         return res.status(200).json({
             success: true,
             message: 'Successfully created a new user',
-            data: response,
+            token,
             err: {}
         });        
     } catch (error) {
         return res.status(500).json({
             message: error.message,
-            data: {},
+            token: {},
             success: false,
             err: error.message
         });

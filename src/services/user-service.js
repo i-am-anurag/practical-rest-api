@@ -55,17 +55,19 @@ class UserService {
         }
     }
 
-    verifyToken(token) {
+    async getUserProfile(userId) {
         try {
-            const response = jwt.verify(token, JWT_SECRET_KEY);
-            return response;
+            const user = await this.userRepository.getUserById(userId);
+            if(!user) {
+                throw error;
+            }
+
+            return user;
         } catch (error) {
-            console.log("Something went wrong in token validation", error);
-            throw error;
+            console.log("omething went wrong in get user");
+            throw error;   
         }
     }
-
-
 }
 
 module.exports = UserService;

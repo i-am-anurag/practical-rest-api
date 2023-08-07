@@ -24,6 +24,20 @@ class UserRepository{
             throw error;
         }
     }
+
+    async getUserById(userId) {
+        try {
+            const userProfile = await User.findOne({
+                where: { id: userId },
+                attributes: ['id', 'username', 'email'],
+            });
+    
+            return userProfile;   
+        } catch (error) {
+            console.log('Error in get by id in repo', error.message);
+            throw error;    
+        }
+    }
 };
 
 module.exports = UserRepository;

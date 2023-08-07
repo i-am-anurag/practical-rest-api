@@ -47,7 +47,29 @@ const signIn = async(req,res) => {
     }
 }
 
+const getUserProfile = async(req, res) => {
+    try {
+        const userId = req.user.id;
+        const response = await userService.getUserProfile(userId);
+        console.log(response);
+        return res.status(200).json({
+            success:true,
+            message:'User profile fetched successfully!',
+            data: response,
+            err:{}
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message,
+            data: {},
+            success: false,
+            err: error.message
+        });   
+    }
+}
+
 module.exports = {
     signUp,
     signIn,
+    getUserProfile,
 }

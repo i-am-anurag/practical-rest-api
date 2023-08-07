@@ -1,5 +1,4 @@
 const validateUserAuth = (req, res, next) => {
-    console.log("Function called");
     if(!req.body.email || !req.body.password) {
         return res.status(400).json({
             success: false,

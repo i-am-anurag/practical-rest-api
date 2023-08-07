@@ -5,6 +5,7 @@ Welcome to the REST APIs - Practical project! This project showcases a collectio
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+- [Database Configuration](#database-configuration)
 - [Endpoints](#endpoints)
   - [User Signup](#user-signup)
   - [User Login](#user-login)
@@ -21,6 +22,24 @@ To get started with this project, follow these steps:
 2. Install dependencies: `npm install`
 3. Configure environment variables (if applicable): Create a `.env` file and set the required variables.
 4. Start the server: `npm start`
+
+## Database Configuration
+
+1. Run the following command to initialize Sequelize in your project and generate a configuration file:
+   ```sh
+   npx sequelize init
+   Update the config/config.json file with your database configuration:
+   {
+    "development": {
+        "username": "your-mysql-username",
+        "password": "your-mysql-password",
+        "database": "your-database-name",
+        "host": "127.0.0.1",
+        "dialect": "mysql"
+    },
+  // ...
+  }
+
 
 ## Endpoints
 

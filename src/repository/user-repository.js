@@ -17,7 +17,6 @@ class UserRepository{
                 where: {email: userEmail}
             });
 
-            console.log(user);
             return user;
         } catch (error) {
             console.log('Error in get by Email in repo', error.message);
@@ -25,17 +24,17 @@ class UserRepository{
         }
     }
 
-    async getUserById(userId) {
+    async getUserById(userId, attributes = []) {
         try {
             const userProfile = await User.findOne({
                 where: { id: userId },
-                attributes: ['id', 'username', 'email'],
+                attributes: attributes.length ? attributes : ['id', 'username', 'email'],
             });
     
-            return userProfile;   
+            return userProfile;
         } catch (error) {
             console.log('Error in get by id in repo', error.message);
-            throw error;    
+            throw error;
         }
     }
 };

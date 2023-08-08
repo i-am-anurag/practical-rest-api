@@ -33,7 +33,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: [3, 100]
       }
-    }
+    },
+    jokes: {
+      type: DataTypes.JSON,
+      defaultValue: [],
+  },
   }, {
     sequelize,
     modelName: 'User',

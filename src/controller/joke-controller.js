@@ -1,28 +1,23 @@
 const phin = require('phin');
-const JokeService = require('../services/joke-service');
+const JokeService = require('../services/joke-service.js');
 const jokeService = new JokeService();
 
 const getRandomJoke = async (req,res) => {
     try {
-        const response = await phin({
-            url: 'https://api.chucknorris.io/jokes/random',
-            parse: 'json'
-        });
-
-        const joke = response.body.value;
-
+        const userId = req.user.id;
+        const response = await jokeService.generateAndStoreJoke(userId);
         return res.status(200).json({
             success:true,
             message:'Joke fetch sucessfully!',
-            joke,
+            data:response,
             err:{}
         })
     } catch (error) {
         return res.status(200).json({
             success:false,
             message:'There is an error to fetch joke',
-            data:joke,
-            err:{}
+            data:{},
+            err:error.message,
         });
     }
 }

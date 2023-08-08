@@ -7,26 +7,33 @@ class JokeService {
         this.userRepo = new UserRepository();
     }
 
-    async generateAndStoreJoke(userId) {
+    async storeJoke(userId,jokeContent){
         try {
-            const response = await phin({
-                url: 'https://api.chucknorris.io/jokes/random',
-                parse: 'json'
-            });
-            const jokeContent = response.body.value;
-    
             const user = await this.userRepo.getUserById(userId, ['id','jokes']);
             if (user) {
                 user.jokes = user.jokes || [];
                 user.jokes.push(jokeContent);
                 console.log(user.jokes);
                 await User.update({ jokes: user.jokes }, { where: { id: userId } });
-            }
-            
+            }   
+        } catch (error) {
+            console.log("There was an issue with saving your joke");
+            throw{ message: 'Error while saving joke'};
+        }
+    }
+
+    async getJokes(userId) {
+        try {
+            const response = await phin({
+                url: 'https://chucknorris.io/jokes/random',
+                parse: 'json'
+            });
+            const jokeContent = response.body.value;
+            await this.storeJoke(userId,jokeContent);
+
             return jokeContent;
         } catch (error) {
-            console.log(`Error while generating and storing a random Chuck Norris joke for userId`);
-            throw error;
+            throw{ message: 'Error while fetching jokes'};
         }
     }
 }

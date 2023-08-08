@@ -64,7 +64,7 @@ class UserService {
 
             return user;
         } catch (error) {
-            console.log("omething went wrong in get user");
+            console.log("something went wrong in get user");
             throw error;   
         }
     }

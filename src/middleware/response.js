@@ -1,9 +1,9 @@
 const asyncHandler = require("../utils/asyn-handler");
 
-const SuccessResponse = (data) => {
+const SuccessResponse = (data,message) => {
     return {
         success: true,
-        message: "Operation complete successfully",
+        message: message,
         data,
         error: {},
     }
@@ -19,19 +19,29 @@ const FailureResponse = (error) => {
 };
 
 const responses = asyncHandler(async (req, res, next) => {
-    res.OK = (data) => {
-        const resBody = SuccessResponse(data);
+    res.OK = (data,message) => {
+        const resBody = SuccessResponse(data,message);
         return res.status(200).json(resBody);
     };
 
-    res.CREATED = (data) => {
-        const resBody = SuccessResponse(data);
+    res.CREATED = (data,message) => {
+        const resBody = SuccessResponse(data,message);
         return res.status(201).json(resBody);
     }
 
     res.BADREQUEST = (error) => {
         const resBody = FailureResponse(error);
         return res.status(400).json(resBody);
+    }
+
+    res.UNAUTHORIZED = (error) => {
+        const resBody = FailureResponse(error);
+        return res.status(401).json(resBody);
+    }
+
+    res.FORBIDDEN = (error) => {
+        const resBody = FailureResponse(error);
+        return res.status(403).json(resBody);
     }
 
     res.APPERROR = (error) => {

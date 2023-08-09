@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { JWT_SECRET_KEY } = require('../config/server-config');
 const UserRepository = require('../repository/user-repository');
+const { User } = require('../models/index');
 
 class UserService {
     constructor(){
@@ -29,6 +30,8 @@ class UserService {
                 throw{message: 'Invalid credentials'};
             }
             const token = this.createToken({email: user.email, id: user.id});
+            await user.update({ token: token });
+
             return token;   
         } catch (error) {
             console.log("Something went wrong in signin process", error);
@@ -45,9 +48,9 @@ class UserService {
        }
     }
 
-    async createToken(user) {
+    createToken(user) {
         try {
-            const token = await jwt.sign(user,JWT_SECRET_KEY,{expiresIn:'1d'});
+            const token = jwt.sign(user,JWT_SECRET_KEY,{expiresIn:'1d'});
             return token;   
         } catch (error) {
             console.error("something went wrong in token creation");
@@ -66,6 +69,19 @@ class UserService {
         } catch (error) {
             console.log("something went wrong in get user");
             throw error;   
+        }
+    }
+
+    async userLogout(userId) {
+        try {
+            const user = await this.userRepository.getUserById(userId,['id','token']);
+
+            if(user) {
+                await user.update({ token: null });
+            }
+        } catch (error) {
+            console.log("something went wrong in token deletion");
+            throw error;
         }
     }
 }

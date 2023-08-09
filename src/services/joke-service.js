@@ -25,7 +25,7 @@ class JokeService {
     async getJokes(userId) {
         try {
             const response = await phin({
-                url: 'https://chucknorris.io/jokes/random',
+                url: 'https://api.chucknorris.io/jokes/random',
                 parse: 'json'
             });
             const jokeContent = response.body.value;
@@ -33,6 +33,7 @@ class JokeService {
 
             return jokeContent;
         } catch (error) {
+            console.log(error.message);
             throw{ message: 'Error while fetching jokes'};
         }
     }

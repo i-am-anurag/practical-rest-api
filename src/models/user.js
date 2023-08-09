@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
         len: [3, 100]
       }
     },
+    token: {
+      type:DataTypes.STRING(250),
+      allowNull: true,
+    },
     jokes: {
       type: DataTypes.JSON,
       defaultValue: [],

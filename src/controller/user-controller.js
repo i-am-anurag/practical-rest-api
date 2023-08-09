@@ -12,25 +12,33 @@ const signUp = asyncHandler(async (req, res) => {
     };
     const response = await userService.create(userData);
 
-    return res.CREATED(response);
+    return res.CREATED(response,"User created sucessfully");
 })
 
 const signIn = asyncHandler(async(req,res) => {
     const { email, password } = req.body;
     const token = await userService.signIn(email,password);
 
-    return res.OK(token);
+    return res.OK(token,"User signed in sucessfully");
 })
 
 const getUserProfile = asyncHandler(async(req, res) => {
     const userId = req.user.id;
     const response = await userService.getUserProfile(userId);
 
-    return res.OK(response);
-})
+    return res.OK(response,"Fetch User Profile Successfully");
+});
+
+const logOut = asyncHandler(async(req, res) => {
+    const userId = req.user.id;
+    const response = await userService.userLogout(userId);
+
+    return res.OK(response,"User logged out sucessfully");
+});
 
 module.exports = {
     signUp,
     signIn,
     getUserProfile,
+    logOut,
 }

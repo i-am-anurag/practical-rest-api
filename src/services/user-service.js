@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { JWT_SECRET_KEY } = require('../config/server-config');
 const UserRepository = require('../repository/user-repository');
-const { User } = require('../models/index');
 
 class UserService {
     constructor(){

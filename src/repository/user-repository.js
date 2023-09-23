@@ -3,13 +3,16 @@ const { User } = require('../models/index');
 class UserRepository{
     async create(data) {
         try {
-            const user = await User.create(data);
+            const user = await User.create(data, {
+                attributes: { exclude: ['password'] }
+            });
             return user;
         } catch (error) {
-            console.log("Something went wrong on repository layer",error.message);
+            console.log("Something went wrong on repository layer", error.message);
             throw error;
         }
     }
+    
     
     async getByEmail(userEmail) {
         try {
